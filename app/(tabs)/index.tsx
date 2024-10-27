@@ -1,15 +1,23 @@
-import { StyleSheet } from 'react-native';
+import WelcomeHeader from '@/components/WelcomeHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { Button, StyleSheet } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
 
 export default function TabOneScreen() {
+  
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userSession'); // Oturum bilgisini kaldır
+      router.replace('/(modals)/home'); // Giriş sayfasına yönlendir
+    } catch (error) {
+      console.error('Cikis yapılırken bir hata oluştu:', error);
+    }
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+   <>
+   <Button title="Logout" onPress={handleLogout}/>
+   </>
   );
 }
 

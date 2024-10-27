@@ -1,5 +1,12 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
+const primary = "#1C1C1F"
+const deActive = "#DCE4F2"
+const active = '#0081f1'
+const white = "#FFFFFF"
+const backDrop = "rgba(255,255,255,0.5)"
+const backDropDark = "rgba(0,0,0,0.5)"
+const colors = {primary,deActive,white,backDrop,active,backDropDark};
 
 export default {
   light: {
@@ -16,4 +23,7 @@ export default {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
+  primary: '#FF385C',
+  grey: '#5E5D5E',
+  dark1: '#1A1A1A',
 };
