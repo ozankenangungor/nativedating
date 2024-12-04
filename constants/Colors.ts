@@ -27,3 +27,4 @@ export default {
   grey: '#5E5D5E',
   dark1: '#1A1A1A',
 };
+

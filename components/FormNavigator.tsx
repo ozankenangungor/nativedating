@@ -2,10 +2,10 @@ import {View,StyleSheet, Pressable, Text, TouchableOpacity} from 'react-native'
 import {FC} from 'react';
 import colors from '@/constants/Colors';
 interface Props {
-    leftTitle: string;
-    rightTile: string;
-    onLeftPress(): void;
-    onRightPress(): void;
+    leftTitle?: string;
+    rightTile?: string;
+    onLeftPress?(): void;
+    onRightPress?(): void;
 }
 
 

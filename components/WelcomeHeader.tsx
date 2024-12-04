@@ -11,7 +11,6 @@ const WelcomeHeader: FC<Props> = (props) => {
   return (
 
     <View style={styles.container} > 
-    <Image source={require('../assets/images/hero.png')} style={styles.image} resizeMode='contain' resizeMethod='resize'/>
     <Text style={styles.heading}>{heading}</Text>
     <Text style={styles.subHeading}>{subHeading}</Text>
 

@@ -9,7 +9,7 @@ interface LoginRequest {
 }
 
 const useLogin = () => {
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
 
   const login = async (request: LoginRequest) => {
     try {
@@ -22,19 +22,23 @@ const useLogin = () => {
       });
 
       if (!res.ok) {
-        setError(true);
+        if (res.status === 401) {
+          setError("Invalid email or password");
+        } else {
+          setError("Unknown error occured.");
+        }
         return;
       }
 
       const data = await res.json();
       await AsyncStorage.setItem('authToken', data.token); // token'ı AsyncStorage'a kaydediyoruz.
-      setError(false);
+      setError("");
 
       // Apollo Client ile aktif sorguları yeniden yükleme
       await client.refetchQueries({ include: 'active' });
     } catch (error) {
       console.error('Login error:', error);
-      setError(true);
+      setError("Unknown error occured.");
     }
   };
 
