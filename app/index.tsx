@@ -10,6 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import beachImage from "@/assets/deneme/deneme1.png";
+import AppleSignInButton from "@/components/AppleButton";
 
 const App = () => {
   const router = useRouter();

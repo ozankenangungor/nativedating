@@ -3,20 +3,28 @@ import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import { useCreateUser } from '@/hooks/useCreateUser';
 import { useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
 
 const CreateUserScreen = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const createUser = useCreateUser();
+  const [createUser, { error: mutationError, loading: mutationLoading }] = useCreateUser();  // mutation fonksiyonunu ve durumu alın
   const router = useRouter();
 
   const handleCreateUser = async () => {
     setLoading(true);
     setError(''); // Clear previous errors
     try {
-      await createUser(email);
+      // Create the user by calling the mutate function with the necessary variables
+      const {data} = await createUser({ variables: { createUserInput: { email } } });
+      console.log(JSON.stringify(data, null, 2));
+      SecureStore.setItemAsync('token', data.createUser.token);
+      SecureStore.setItemAsync('refreshToken', data.createUser.refreshToken);
+      router.replace('/(screens)/Home');
+      // If successful, navigate or show success
     } catch (e) {
+      console.log(e);
       setError('Kullanıcı oluşturma başarısız. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
@@ -36,7 +44,7 @@ const CreateUserScreen = () => {
       </Text>
       <View className="mb-4">
         <TextInput
-          className="flex-1 text-xl h-12 border-b border-gray-400 pb-3 text-gray-900"
+          className=" text-xl h-12 border-b border-gray-400 pb-3 text-gray-900"
           placeholder="Email address"
           keyboardType="email-address"
           value={email}
@@ -45,11 +53,11 @@ const CreateUserScreen = () => {
       </View>
       {error ? <Text className="text-red-500 mt-4 text-lg">{error}</Text> : null}
       <TouchableOpacity
-        className={`mt-4 w-full h-16 ${loading ? 'bg-gray-500' : 'bg-indigo-600'} rounded-full items-center justify-center`}
+        className={`mt-4 w-full h-16 ${loading || mutationLoading ? 'bg-gray-500' : 'bg-indigo-600'} rounded-full items-center justify-center`}
         onPress={handleCreateUser}
-        disabled={loading}
+        disabled={loading || mutationLoading}
       >
-        {loading ? (
+        {loading || mutationLoading ? (
           <ActivityIndicator size="small" color="#FFFFFF" />
         ) : (
           <Text className="text-white text-xl">Create Account</Text>
