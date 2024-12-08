@@ -10,14 +10,15 @@ export const useAuthCheck = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // SplashScreen'i gizlemeyi ertele
+        await SplashScreen.preventAutoHideAsync();
+
         // SecureStore'dan token'i al
         const token = await SecureStore.getItemAsync('accessToken');
-
+        console.log('token', token);
         if (token) {
           // Token varsa ve geçerliyse ana sayfaya yönlendir
-          setTimeout(() => {
-            router.replace('/(screens)/Home'); // Ana sayfa yolunuza göre güncelleyin
-          }, 0);
+          router.replace('/(screens)/Home'); // Ana sayfa yolunuza göre güncelleyin
         } else {
           setIsReady(true); // Token yoksa giriş ekranını göster
         }

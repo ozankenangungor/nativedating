@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -8,8 +8,6 @@ import client from '@/constants/apollo-client';
 import '../global.css';
 import 'react-native-reanimated';
 import { useAuthCheck } from '@/hooks/useAuthCheck';
-
-SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -21,8 +19,18 @@ export default function RootLayout() {
 
   const isReady = useAuthCheck();
 
-  if (!isReady || !fontsLoaded) {
-    return null; // Henüz hazır değilse hiçbir şey render etme
+  useEffect(() => {
+    const prepare = async () => {
+      if (fontsLoaded && isReady) {
+        SplashScreen.hideAsync();
+      }
+    };
+
+    prepare();
+  }, [fontsLoaded, isReady]);
+
+  if (!fontsLoaded || !isReady) {
+    return null;
   }
 
   return (

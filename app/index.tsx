@@ -1,22 +1,37 @@
 import { View, Text, Image, ImageBackground } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomButton from "@/components/CustomButton";
 import AppGradient from "@/components/AppGradient";
 import { Href, useRouter } from "expo-router";
+import * as SecureStore from 'expo-secure-store';
+
 import Animated, {
   FadeInDown,
 } from "react-native-reanimated";
 
-import beachImage from "@/assets/deneme/deneme1.png";
+import beachImage from "@/assets/deneme/deneme3.png";
 import AppleSignInButton from "@/components/AppleButton";
 
 const App = () => {
   const router = useRouter();
 
+  useEffect(() => {
+    const checkAuthToken = async () => {
+      const token = await SecureStore.getItemAsync('token');
+      if (token) {
+      } else {
+        router.replace('/(modals)/epostaonay');
+      }
+    };
+    checkAuthToken();
+  }, []);
+
   return (
+    
     <View className="flex-1 ">
+      
       <ImageBackground
         source={beachImage}
         resizeMode="cover"

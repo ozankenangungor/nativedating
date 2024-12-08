@@ -8,8 +8,10 @@
     "newArchEnabled": true,
     "userInterfaceStyle": "automatic",
     "splash": {
+      "image": "./assets/images/HeartIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+
     },
     "ios": {
       "supportsTablet": true

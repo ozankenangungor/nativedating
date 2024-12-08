@@ -18,9 +18,9 @@ const CreateUserScreen = () => {
     try {
       // Create the user by calling the mutate function with the necessary variables
       const {data} = await createUser({ variables: { createUserInput: { email } } });
-      console.log(JSON.stringify(data, null, 2));
       SecureStore.setItemAsync('token', data.createUser.token);
       SecureStore.setItemAsync('refreshToken', data.createUser.refreshToken);
+
       router.replace('/(screens)/Home');
       // If successful, navigate or show success
     } catch (e) {
